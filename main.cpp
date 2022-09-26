@@ -31,14 +31,64 @@ namespace {
 
     class Solution {
     public:
-        static std::vector <std::vector<int>> pathSum(TreeNode* root, const int targetSum) {
-            std::queue<TreeNode*> q;
-            q.push(root);
-            while(!q.empty()) {
+//        std::queue<TreeNode*> q;
+//        std::vector<std::vector<int>> v;
+//        void pathSumRecursive(std::vector<int> & currentPath, const int sumSoFar, const int targetSum) {
+//            if (!q.empty()) {
+//                auto node = q.front();
+//                curre
+//            }
+//        }
+//
+//        std::vector<std::vector<int>> pathSum(TreeNode* root, const int targetSum) {
+//            int sumSoFar = root->val;
+//            if (root->left) q.push(root->left.get());
+//            if (root->right) q.push(root->right.get());
+//            std::vector<int> activePath;
+//            activePath.push_back(root->val);
+//            pathSumRecursive(activePath, sumSoFar, targetSum);
+//            return v;
+//        }
 
+//        std::vector<std::vector<int>> pathSum(TreeNode* root, const int targetSum) {
+//            std::queue<TreeNode*> q;
+//            std::vector<std::vector<int>> v;
+//            std::vector<
+//            q.push(root);
+//            int sumSoFar = 0;
+//            while(!q.empty()) {
+//                auto node = q.front();
+//                sumSoFar = node->val;
+//                if (node->left) q.push(node->left.get());
+//                if (node->right) q.push(node->right.get());
+//                q.pop();
+//            }
+//            return v;
+//        }
+
+        std::vector<std::vector<int>> v;
+
+        void pathSumRecursive(TreeNode* node, const int targetSum, int sumSoFar, std::vector<int> current) {
+            sumSoFar += node->val;
+            current.push_back(node->val);
+
+            if (node->left) {
+                pathSumRecursive(node->left.get(), targetSum, sumSoFar, current);
             }
-            return {};
+            if (node->right) {
+                pathSumRecursive(node->right.get(), targetSum, sumSoFar, current);
+            }
+            if (sumSoFar == targetSum) {
+                v.push_back(current);
+            }
         }
+
+        std::vector<std::vector<int>> pathSum(TreeNode* root, const int targetSum) {
+            std::vector<int> current;
+            pathSumRecursive(root, targetSum, 0, {});
+            return v;
+        }
+
     };
 
     void println() { std::clog << '\n'; }
@@ -75,6 +125,13 @@ namespace {
 int main() {
     auto root = make_tree2({5, 4, 8, 11, std::nullopt, 13, 4, 7, 2, std::nullopt, std::nullopt, 5, 1});
     constexpr auto targetSum = 22;
-    auto vec = Solution::pathSum(root.get(), targetSum);
+    Solution s;
+    auto vec = s.pathSum(root.get(), targetSum);
+    for(const auto& outer : vec) {
+        for(auto inner : outer) {
+            std::clog << inner << ',';
+        }
+        println();
+    }
     return 0;
 }
