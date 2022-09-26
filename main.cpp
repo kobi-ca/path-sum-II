@@ -132,18 +132,42 @@ namespace {
         }
         return {};
     }
+
+    void make_tree2(std::initializer_list<std::optional<int>> l) {
+        auto iter = l.begin(); // root - assume root is there
+        auto iter_unwrap = *iter;
+        auto node = std::make_shared<TreeNode>(*iter_unwrap);
+        std::queue<std::shared_ptr<TreeNode>> q;
+        for(auto iter_opt = std::next(iter); iter_opt != l.end();) {
+            if (auto opt = *iter_opt; opt) {
+                std::clog << *opt << ' ';
+            } else {
+                std::clog << "nullptr" << ' ';
+            }
+            std::advance(iter_opt, 1);
+            if (auto opt = *iter_opt; opt) {
+                std::clog << *opt << '\n';
+            } else {
+                std::clog << "nullptr" << '\n';
+            }
+            std::advance(iter_opt, 1);
+        }
+    }
+
 }
 
 int main() {
-    auto tree = make_vector({5, 4, 8, 11, std::nullopt, 13, 4, 7, 2, std::nullopt, std::nullopt, 5, 1});
-    std::reverse(tree.begin(), tree.end());
-    std::clog << "\nprinting tree:\n";
-    for (const auto& [item1, item2] : tree) {
-        print_item(item1);
-        std::clog << ',';
-        print_item(item2);
-        std::clog << '\n';
-    }
-    const auto root = construct_tree(tree);
+//    auto tree = make_vector({5, 4, 8, 11, std::nullopt, 13, 4, 7, 2, std::nullopt, std::nullopt, 5, 1});
+//    std::reverse(tree.begin(), tree.end());
+//    std::clog << "\nprinting tree:\n";
+//    for (const auto& [item1, item2] : tree) {
+//        print_item(item1);
+//        std::clog << ',';
+//        print_item(item2);
+//        std::clog << '\n';
+//    }
+//    const auto root = construct_tree(tree);
+
+    make_tree2({5, 4, 8, 11, std::nullopt, 13, 4, 7, 2, std::nullopt, std::nullopt, 5, 1});
     return 0;
 }
