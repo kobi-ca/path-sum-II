@@ -31,43 +31,16 @@ namespace {
 
     class Solution {
     public:
-//        std::queue<TreeNode*> q;
-//        std::vector<std::vector<int>> v;
-//        void pathSumRecursive(std::vector<int> & currentPath, const int sumSoFar, const int targetSum) {
-//            if (!q.empty()) {
-//                auto node = q.front();
-//                curre
-//            }
-//        }
-//
-//        std::vector<std::vector<int>> pathSum(TreeNode* root, const int targetSum) {
-//            int sumSoFar = root->val;
-//            if (root->left) q.push(root->left.get());
-//            if (root->right) q.push(root->right.get());
-//            std::vector<int> activePath;
-//            activePath.push_back(root->val);
-//            pathSumRecursive(activePath, sumSoFar, targetSum);
-//            return v;
-//        }
-
-//        std::vector<std::vector<int>> pathSum(TreeNode* root, const int targetSum) {
-//            std::queue<TreeNode*> q;
-//            std::vector<std::vector<int>> v;
-//            std::vector<
-//            q.push(root);
-//            int sumSoFar = 0;
-//            while(!q.empty()) {
-//                auto node = q.front();
-//                sumSoFar = node->val;
-//                if (node->left) q.push(node->left.get());
-//                if (node->right) q.push(node->right.get());
-//                q.pop();
-//            }
-//            return v;
-//        }
-
+        // Final results to return
         std::vector<std::vector<int>> v;
 
+        /**
+         * each stack has the state of the subtree and it carries the current vector
+         * so when we wind down, we will see the std::vector<int> of this stack, and we will see
+         * sumSoFar up to this node.
+         * when we are in a leaf, we hit the if sum == target and if this is true, we add the current
+         * path to the list of paths
+         */
         void pathSumRecursive(TreeNode* node, const int targetSum, int sumSoFar, std::vector<int> current) {
             sumSoFar += node->val;
             current.push_back(node->val);
@@ -92,8 +65,11 @@ namespace {
     };
 
     void println() { std::clog << '\n'; }
-    void printdelim( const char c = ',') { std::clog << c; }
 
+    /**
+     * it is guaranteed that we have a root and then pairs
+     * We use shared_ptr to move things around easily and have the ability to delete.
+     */
     auto make_tree2(std::initializer_list<std::optional<int>> l) {
         auto iter = l.begin(); // root - assume root is there
         auto iter_unwrap = *iter;
