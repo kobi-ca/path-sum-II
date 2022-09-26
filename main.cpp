@@ -69,6 +69,15 @@ namespace {
     /**
      * it is guaranteed that we have a root and then pairs
      * We use shared_ptr to move things around easily and have the ability to delete.
+     * we start with root. push it to queue.
+     * we loop as long as we have something in queue and something in the array/init list.
+     * we pick up the next in queue and pick up the next pair in the init list.
+     * By definition, the pair are the childs of this node.
+     * so we concatenate it if the childs are not nullptrs.
+     * If they are not nullptrs, we push them to the queue since their child
+     * will be next from the init list and we need to deal with them soon.
+     * at each iteration we advance the iter pointer in 2 locations because it is pair each time.
+     * and we pop the one the we visited from the queue.
      */
     auto make_tree2(std::initializer_list<std::optional<int>> l) {
         auto iter = l.begin(); // root - assume root is there
